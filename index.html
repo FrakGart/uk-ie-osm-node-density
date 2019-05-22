@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>United Kingdom OpenStreetMap Node Density</title>
+    <meta charset="utf-8" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.1.0/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.1.0/dist/leaflet.js"></script>
+    <script src="leaflet-fullHash.js"></script>
+</head>
+<body>
+    <div id="map" style="position:absolute; left:0; right:0; top:0; bottom:0; background-color:black;"></div>
+
+    <script>
+        var map = L.map('map', {maxZoom:12, minZoom:4}).setView([54.1,-3.0], 5);
+        var attr = 'Data &copy; <a href="http://openstreetmap.org/copyright">OpenStreetMap contributors</a>,Tiles &copy; <a href="http://www.openstreetmap.org/user/TheSwavu">Andrew Davidson</a> <a href="http://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>';
+        var layer_opts = {maxNativeZoom: 12,minNativeZoom: 3,bounds: [[49.795,-11.00],[59.512,1.890]],attribution: attr};
+        var url_base = 'https://frakgart.github.io/uk-ie-osm-node-density/';
+        var url_tail = '/density/{z}/{x}/{y}.png';
+
+
+        var density2018 = L.tileLayer(url_base+'2018'+url_tail, layer_opts),
+            density2017 = L.tileLayer(url_base+'2017'+url_tail, layer_opts),            
+            density2016 = L.tileLayer(url_base+'2016'+url_tail, layer_opts),
+            density2015 = L.tileLayer(url_base+'2015'+url_tail, layer_opts),
+            density2014 = L.tileLayer(url_base+'2014'+url_tail, layer_opts),
+            density2013 = L.tileLayer(url_base+'2013'+url_tail, layer_opts),
+            density2012 = L.tileLayer(url_base+'2012'+url_tail, layer_opts),
+            density2011 = L.tileLayer(url_base+'2011'+url_tail, layer_opts),
+            density2010 = L.tileLayer(url_base+'2010'+url_tail, layer_opts),
+            density2009 = L.tileLayer(url_base+'2009'+url_tail, layer_opts),
+            density2008 = L.tileLayer(url_base+'2008'+url_tail, layer_opts),
+            density2007 = L.tileLayer(url_base+'2007'+url_tail, layer_opts),
+            overlay = L.tileLayer('//{s}.tiles.mapbox.com/v4/openstreetmap.map-inh76ba2/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoidGhlc3dhdnUiLCJhIjoiY2p2NXQ5ZGN0MDJoZTQ1bWcyNTdjdjJrMSJ9.x5N26g7dvsx24q3ENnxsdQ', {
+            opacity: 0.75,
+            attribution: 'Overlay &copy; <a href="https://www.mapbox.com/about/maps/">Mapbox</a>'
+        });
+        L.control.layers({
+            "density 2018" : density2018,
+            "density 2017" : density2017,
+            "density 2016" : density2016,
+            "density 2015" : density2015,
+            "density 2014" : density2014,
+            "density 2013" : density2013,
+            "density 2012" : density2012,
+            "density 2011" : density2011,
+            "density 2010" : density2010,
+            "density 2009" : density2009,
+            "density 2008" : density2008,
+            "density 2007" : density2007
+        }, {
+            "locations":overlay
+        }).addTo(map);
+        density2018.addTo(map);
+        //overlay.addTo(map);
+        var hash = new L.Hash(map, {
+            "latest": density2018,
+            "2017" : density2017,
+            "2016" : density2016,
+            "2015" : density2015,
+            "2014" : density2014,
+            "2013" : density2013,
+            "2012" : density2012,
+            "2011" : density2011,
+            "2010" : density2010,
+            "2009" : density2009,
+            "2008" : density2008,
+            "2007" : density2007,
+            "places":overlay
+        });
+        L.control.scale({metric:true, imperial:false}).addTo(map);
+    </script>
+
+    <script>
+        setTimeout(function() {
+            var script = document.createElement('script');
+            script.asnyc = 'async';
+            script.src = 'https://unpkg.com/leaflet.gridlayer.fadeout@0.1.0/Leaflet.GridLayer.FadeOut.js';
+            document.getElementsByTagName('head')[0].appendChild(script);
+        }, 2000);
+    </script>
+</body>
+</html>
